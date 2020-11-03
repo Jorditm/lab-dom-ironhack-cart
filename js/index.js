@@ -8,37 +8,48 @@ function updateSubtotal(product) {
   let unitQuantity = Number(quantity.value);
 
   let subtotal = unitPrice * unitQuantity;
-  let subtotalNum = product.querySelector(".subtotal span");
-  subtotalNum.innerHTML = subtotal;
-  return subtotal;
 
-  console.log("Calculating subtotal, yey!");
+  let subtotalNum = product.querySelector(".subtotal span");
+
+  subtotalNum.innerHTML = subtotal;
+
+  return subtotal;
 }
 
 function calculateAll() {
+  // const singleProduct = document.querySelector(".product");
+  // updateSubtotal(singleProduct);
   // ITERATION 2
-  let allProducts = document.querySelectorAll(".product");
+  const allProducts = document.querySelectorAll(".product");
+  let productPrice = 0;
+
   allProducts.forEach((product) => {
-    updateSubtotal(product);
+    productPrice += updateSubtotal(product);
   });
 
-  // ITERATION 3
-
-  let calculateAllPrices = [...allProducts].reduce((acc, currentValue) => {
-    return acc + updateSubtotal(currentValue);
-  }, 0);
-
-  let total = document.querySelector("#total-value span");
-  total.innerHTML = calculateAllPrices;
-  return calculateAllPrices;
+  // // ITERATION 3
+  let totalPriceRender = document.querySelector("#total-value span");
+  totalPriceRender.innerHTML = productPrice;
+  return productPrice;
 }
 
-// ITERATION 4
+// ITERATION 4 (BONUS)
+
+window.addEventListener("load", () => {
+  const removeBtn = document.querySelectorAll(".btn-remove");
+  const allBtns = [...removeBtn];
+  allBtns.forEach((oneBtn) => {
+    oneBtn.addEventListener("click", removeProduct);
+  });
+});
 
 function removeProduct(event) {
   const target = event.currentTarget;
   console.log("The target in remove is:", target);
   //... your code goes here
+  target.parentNode.parentNode.remove();
+  let totalPrice = document.querySelector("#calculate");
+  totalPrice.click();
 }
 
 // ITERATION 5
